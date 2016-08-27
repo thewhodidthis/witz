@@ -1,0 +1,57 @@
+{
+  "name": "@thewhodidthis/witz",
+  "version": "1.0.0",
+  "description": "Helps mess up pictures",
+  "keywords": [
+    "picture",
+    "canvas",
+    "glitch"
+  ],
+  "main": "index.js",
+  "homepage": "https://github.com/thewhodidthis/witz#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thewhodidthis/witz.git"
+  },
+  "bugs": {
+    "url": "https://github.com/thewhodidthis/witz/issues"
+  },
+  "directories": {
+    "example": "example"
+  },
+  "config": {
+    "jscsrc": ".jscsrc"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\"",
+    "clear": "npm run clear:dist && npm run clear:logs",
+    "clear:dist": "rm -rf dist/",
+    "clear:logs": "rm -f *.log",
+    "lint": "(jshint index.js & jscs index.js --reporter=inlinesingle) 2>&1 | tee lint-js.log",
+    "postlint": "find lint-js.log -size 0 -print0 | xargs -0 rm",
+    "prestart": "npm run build",
+    "start": "npm run watch",
+    "serve": "php -S localhost:8000",
+    "watch": "watchify index.js -s Witz -o ./dist/witz.js",
+    "example": "npm run build && npm run build:demo",
+    "prebuild": "mkdir -p dist/",
+    "build": "browserify index.js -s Witz -o ./dist/witz.js",
+    "build:min": "browserify index.js -s Witz | uglifyjs -o ./dist/witz.min.js",
+    "build:demo": "ln -siv \"$(pwd)/dist/witz.js\" example",
+    "postbuild": "npm run build:min",
+    "preversion": "npm run clear:logs"
+  },
+  "engines": {
+    "node": ">=4.2.4",
+    "npm": ">=3.5.3"
+  },
+  "devDependencies": {
+    "jscs": "latest",
+    "jshint": "latest",
+    "uglify-js": "latest",
+    "browserify": "latest",
+    "watchify": "latest"
+  },
+  "author": "sChzs BkgNns <sotirios.bakagiannis@gmail.com> (https://www.thewhodidthis.com)",
+  "license": "Unlicense"
+}

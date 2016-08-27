@@ -1,0 +1,49 @@
+## Witz
+> Helps produce glitch imagery
+
+### Setup
+```sh
+npm install thewhodidthis/witz --save
+```
+
+### Usage
+Should work on your latest major browsers.
+```js
+// Require like so if using browserify
+var Witz = require('@thewhodidthis/witz');
+
+var source = document.createElement('img');
+var target = document.createElement('img');
+var buffer = document.createElement('canvas').getContext('2d');
+
+var filter = new Witz({
+	chunks: 10
+});
+
+buffer.canvas.width = 640;
+buffer.canvas.height = 360;
+
+source.setAttribute('crossOrigin', 'anonymous');
+source.setAttribute('src', '//source.unsplash.com/random/640x360');
+
+source.addEventListener('load', function _onImageReady(e) {
+	buffer.drawImage(source, 0, 0);
+
+	// Filter accepts and returns a dataURL
+	target.src = filter.that(buffer.canvas.toDataURL('image/jpeg', 0.01));
+}, false);
+```
+Try the example for typical use case using web workers.
+```sh
+# Symlink freshly built standalone module into example folder
+npm run example
+
+# Start a php server on port 8000
+npm run serve
+
+# Open using default browser (trailing slash required)
+open http://localhost:8000/example/
+```
+
+### More
+- [r/glitch_art](https://www.reddit.com/r/glitch_art/ "Glitch art subreddit")

@@ -1,0 +1,36 @@
+<!doctype html>
+<html class="html no-js">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+    <title>Witz demo</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+
+  <body>
+    <figure id="figure">
+      <canvas id="canvas" width="640" height="360"></canvas>
+      <figcaption>
+        <p><strong>witz.js</strong> Helps produce glitch imagery</p>
+      </figcaption>
+    </figure>
+
+    <noscript>please enable javascript</noscript>
+    <script src="witz.js"></script>
+    <script id="worker" type="javascript/worker">
+
+      // Normally this will have been cached
+      importScripts(location.origin + '/witz.js');
+
+      self.addEventListener('message', function(e) {
+        var filter = new Witz();
+        var result = filter.that(e.data.input);
+
+        self.postMessage({
+          result: result
+        });
+      }, false);
+    </script>
+    <script src="index.js"></script>
+  </body>
+</html>
