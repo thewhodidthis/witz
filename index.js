@@ -1,52 +1,65 @@
 'use strict';
 
+/**
+ * Helps produce glitch
+ * @constructor
+ * @param {Object} settings - split into how many chunks, list characters to choose from
+ */
 function Witz(options) {
+  var defaults = Object.create(Witz.defaults);
 
   // Store settings
-  for (var key in Witz.defaults) {
-    this[key] = (options && options[key]) || Witz.defaults[key];
+  for (var key in defaults) {
+
+    // TODO: Rewrite maybe?
+    this[key] = (options && options[key]) || defaults[key];
   }
 }
 
 Witz.prototype = {
   constructor: Witz,
 
+  /**
+  * Do glitch
+  * @param {String} dataURL - input base64 encoded image source
+  * @return {String} dataURL - output base64 encoded image source
+  */
   that: function (dataURL) {
-
-    // Swap these around in raw image data
-    var chars = this.chars.split('');
 
     // For splitting data into chunks
     var chunks = [];
     var chunksTotal = this.chunks;
-    var chunkLength = 0;
 
-    // Cleanup dataURL
-    // Leave out the 'data:<mediatype>' and ';base64,' parts
-    var regxp = /(.*)base64,/;
-    var dataType = '';
+    // Swap these around in raw image data
+    var chars = this.chars.split('');
 
-    var data = dataURL.replace(regxp, function (match) {
-      dataType = match;
+    // Separate mime type and data
+    var dataParts = dataURL.split(',');
 
-      return '';
-    });
+    // Mime type
+    var dataType = dataParts[0];
 
-    // Unencode
-    data = atob(data);
+    // Data part
+    var dataData = dataParts[1];
 
-    // Set length of each chunk
-    chunkLength = parseInt((data.length - 1) / chunksTotal, 10);
+    // Decode input data
+    var data = atob(dataData);
 
-    // Do chunk
-    for (var i = 0, stop = data.length; i < stop; i += chunkLength) {
-      chunks.push(data.substring(i, i + chunkLength));
+    // Get input data size
+    var dataSize = data.length;
+
+    // Set chunk size
+    var chunkSize = parseInt(dataSize / chunksTotal, 10);
+
+    // Chunk the data
+    for (var i = 0; i < dataSize; i += chunkSize) {
+      chunks.push(data.substring(i, i + chunkSize));
     }
 
-    // Loop through chunks
+    // Loop through chunks, leaving out the leading part
     for (var i = 1; i <= chunksTotal; i += 1) {
 
-      // Create random numbers for selection of the glitch characters
+      // Create random indices for selection of the glitch characters
       var char1 = Math.floor((Math.random() * chars.length));
       var char2 = Math.floor((Math.random() * chars.length));
 
@@ -61,10 +74,14 @@ Witz.prototype = {
 
     // Stitch everything back together
     data = chunks.join('');
-    data = btoa(data);
-    data = dataType + data;
 
-    return data;
+    // Re-base64-encode
+    dataData = btoa(data);
+
+    // Add mime type, replace input dataURL
+    dataURL = dataType + ',' + dataData;
+
+    return dataURL;
   }
 };
 
