@@ -16,10 +16,7 @@
     </figure>
 
     <noscript>please enable javascript</noscript>
-    <script src="witz.js"></script>
     <script id="worker" type="javascript/worker">
-
-      // Normally this will have been cached
       importScripts(location.origin + '/witz.js');
 
       self.addEventListener('message', function(e) {
