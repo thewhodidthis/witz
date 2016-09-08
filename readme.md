@@ -41,8 +41,8 @@ npm run example
 # Start a php server on port 8000
 npm run serve
 
-# Open using default browser (trailing slash required)
-open http://localhost:8000/example/
+# Open using default browser
+open http://localhost:8000
 ```
 
 ### More
