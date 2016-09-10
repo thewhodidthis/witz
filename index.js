@@ -21,10 +21,10 @@ Witz.prototype = {
 
   /**
   * Do glitch
-  * @param {String} dataURL - input base64 encoded image source
-  * @return {String} dataURL - output base64 encoded image source
+  * @param {String} dataUrl - input base64 encoded image source
+  * @return {String} dataUrl - output base64 encoded image source
   */
-  that: function (dataURL) {
+  that: function (dataUrl) {
 
     // For splitting data into chunks
     var chunks = [];
@@ -34,16 +34,16 @@ Witz.prototype = {
     var chars = this.chars.split('');
 
     // Separate mime type and data
-    var dataParts = dataURL.split(',');
+    var dataUrlParts = dataUrl.split(',');
 
     // Mime type
-    var dataType = dataParts[0];
+    var dataUrlType = dataUrlParts[0];
 
     // Data part
-    var dataData = dataParts[1];
+    var dataUrlData = dataUrlParts[1];
 
     // Decode input data
-    var data = atob(dataData);
+    var data = atob(dataUrlData);
 
     // Get input data size
     var dataSize = data.length;
@@ -76,12 +76,12 @@ Witz.prototype = {
     data = chunks.join('');
 
     // Re-base64-encode
-    dataData = btoa(data);
+    dataUrlData = btoa(data);
 
     // Add mime type, replace input dataURL
-    dataURL = dataType + ',' + dataData;
+    dataUrl = dataUrlType + ',' + dataUrlData;
 
-    return dataURL;
+    return dataUrl;
   }
 };
 
