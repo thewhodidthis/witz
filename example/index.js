@@ -1,9 +1,11 @@
 'use strict';
 
 var html = document.documentElement;
-var output = document.createElement('img');
-var source = document.createElement('img');
+
 var target = document.getElementById('canvas').getContext('2d');
+
+var source = document.createElement('img');
+var output = document.createElement('img');
 
 // Yes the id attribute is the same as that of master but buffer is orphan at this point
 var buffer = target.canvas.cloneNode();
@@ -15,7 +17,6 @@ var worker = new Worker(workerBlobUrl);
 
 html.className = 'html';
 
-// Apply different styles when loaded inside of an iframe
 if (window !== window.top) {
   html.className += ' is-iframe';
 }
