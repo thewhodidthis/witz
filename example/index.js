@@ -2,13 +2,13 @@
 
 var html = document.documentElement;
 
-var target = document.getElementById('canvas').getContext('2d');
+var canvas = document.getElementById('canvas');
+
+// Yes the id attribute is the same as that of master but buffer is orphan at this point
+var buffer = canvas.cloneNode();
 
 var source = document.createElement('img');
 var output = document.createElement('img');
-
-// Yes the id attribute is the same as that of master but buffer is orphan at this point
-var buffer = target.canvas.cloneNode();
 
 var workerBlob = new Blob([document.getElementById('worker').textContent]);
 var workerBlobUrl = (window.URL || window.webkitURL).createObjectURL(workerBlob);
@@ -26,11 +26,11 @@ worker.addEventListener('message', function _onDoneProcessing(e) {
 }, false);
 
 output.addEventListener('load', function _onOutputLoaded(e) {
-  target.drawImage(output, 0, 0);
+  canvas.getContext('2d').drawImage(output, 0, 0);
 
   // DANGER! DANGER!
   // worker.postMessage({
-  //   input: target.canvas.toDataURL('image/jpeg', 0.01)
+  //   input: canvas.toDataURL('image/jpeg', 0.01)
   // });
 }, false);
 
