@@ -1,5 +1,5 @@
 ## Witz
-> Helps produce glitch imagery
+![Screenshot](/screenshot.jpg?raw=true "Screenshot")
 
 ### Setup
 ```sh
