@@ -35,8 +35,16 @@ master.addEventListener('load', function _onInputLoaded(e) {
   buffer.getContext('2d').drawImage(master, 0, 0);
 
   worker.postMessage({
-    input: buffer.toDataURL('image/jpeg', 0.01)
+    input: buffer.toDataURL('image/jpeg', 0.5)
   });
 }, false);
 
 master.setAttribute('src', '/master.png');
+
+document.addEventListener('keydown', function(e) {
+  switch (e.keyCode) {
+    case 32:
+      document.location.reload(true);
+      break;
+  }
+}, false);
