@@ -7,9 +7,10 @@ var buffer = canvas.cloneNode();
 var master = document.createElement('img');
 var output = document.createElement('img');
 
-var workerBlob = new Blob([document.getElementById('worker').textContent]);
+var workerBlob = new Blob([document.getElementById('worker').textContent], {
+  type: 'text/javascript'
+});
 var workerBlobUrl = (window.URL || window.webkitURL).createObjectURL(workerBlob);
-
 var worker = new Worker(workerBlobUrl);
 
 html.className = 'html';
@@ -35,11 +36,12 @@ master.addEventListener('load', function _onInputLoaded(e) {
   buffer.getContext('2d').drawImage(master, 0, 0);
 
   worker.postMessage({
+    url: document.location.toString(),
     input: buffer.toDataURL('image/jpeg', 0.5)
   });
 }, false);
 
-master.setAttribute('src', '/master.png');
+master.setAttribute('src', 'master.png');
 
 document.addEventListener('keydown', function(e) {
   switch (e.keyCode) {
