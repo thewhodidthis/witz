@@ -3,7 +3,7 @@
 
 ### Setup
 ```sh
-npm install thewhodidthis/witz --save
+npm install thewhodidthis/witz
 ```
 
 ### Usage
