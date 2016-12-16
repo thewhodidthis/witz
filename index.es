@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Helps produce glitch
  * @constructor
@@ -17,51 +15,51 @@ Witz.prototype = {
   * @param {String} source - input base64 encoded image source
   * @return {String} dataUrl - output base64 encoded image source
   */
-  that: function that(source) {
-    var dataUrl = source && source.toString() || '';
+  that(source) {
+    let dataUrl = (source && source.toString()) || '';
 
     // For splitting data into chunks
-    var chunks = [];
-    var chunksTotal = this.settings.chunks;
+    const chunks = [];
+    const chunksTotal = this.settings.chunks;
 
     // Swap these around in raw image data
-    var chars = this.settings.chars.split('');
+    const chars = this.settings.chars.split('');
 
     // Separate mime type and data
-    var dataUrlParts = dataUrl.split(',');
+    const dataUrlParts = dataUrl.split(',');
 
     // Mime type
-    var dataUrlType = dataUrlParts[0];
+    const dataUrlType = dataUrlParts[0];
 
     // Data part
-    var dataUrlData = dataUrlParts[1];
+    let dataUrlData = dataUrlParts[1];
 
     // Decode input data
-    var data = atob(dataUrlData);
+    let data = atob(dataUrlData);
 
     // Get input data size
-    var dataSize = data.length;
+    const dataSize = data.length;
 
     // Set chunk size
-    var chunkSize = parseInt(dataSize / chunksTotal, 10);
+    const chunkSize = parseInt(dataSize / chunksTotal, 10);
 
     // Chunk the data
-    for (var i = 0; i < dataSize; i += chunkSize) {
+    for (let i = 0; i < dataSize; i += chunkSize) {
       chunks.push(data.substring(i, i + chunkSize));
     }
 
     // Loop through chunks, leaving out the leading part
-    for (var _i = 1; _i <= chunksTotal; _i += 1) {
+    for (let i = 1; i <= chunksTotal; i += 1) {
       // Create random indices for selection of the glitch characters
-      var char1 = Math.floor(Math.random() * chars.length);
-      var char2 = Math.floor(Math.random() * chars.length);
+      const char1 = Math.floor((Math.random() * chars.length));
+      let char2 = Math.floor((Math.random() * chars.length));
 
       if (char2 === char1) {
         // Witz :))
         char2 = '9';
       }
 
-      chunks[_i] = chunks[_i].replace(chars[char1], chars[char2]);
+      chunks[i] = chunks[i].replace(chars[char1], chars[char2]);
     }
 
     // Stitch everything back together
@@ -71,7 +69,7 @@ Witz.prototype = {
     dataUrlData = btoa(data);
 
     // Add mime type, replace input dataURL
-    dataUrl = dataUrlType + ',' + dataUrlData;
+    dataUrl = `${dataUrlType},${dataUrlData}`;
 
     return dataUrl;
   }
@@ -86,4 +84,4 @@ Witz.defaults = {
   chunks: 23
 };
 
-module.exports = Witz;
+export default Witz;
