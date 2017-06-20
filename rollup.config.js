@@ -8,9 +8,7 @@ export default {
   targets: [
     {
       format: 'iife',
-      indent: true,
-      sourceMap: true,
-      moduleName: 'Witz',
+      moduleName: 'witz',
       dest: 'dist/witz.js'
     },
     {
