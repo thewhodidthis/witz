@@ -1,31 +1,23 @@
 'use strict';
 
-/**
- * Helps produce glitch
- * @constructor
- * @param {Object} settings - split into how many chunks, list characters to choose from
- */
-function Witz(options) {
-  this.settings = Object.assign({}, Witz.defaults, options);
-}
+var Witz = function Witz(options) {
+  var settings = Object.assign({
+    // List of characters to choose from
+    chars: '.!()ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/+-',
 
-Witz.prototype = {
-  constructor: Witz,
+    // Split into how many chunks?
+    chunks: 23
+  }, options);
 
-  /**
-  * Do glitch
-  * @param {String} source - input base64 encoded image source
-  * @return {String} dataUrl - output base64 encoded image source
-  */
-  that: function that(source) {
+  return function (source) {
     var dataUrl = source && source.toString() || '';
 
     // For splitting data into chunks
     var chunks = [];
-    var chunksTotal = this.settings.chunks;
+    var chunksTotal = settings.chunks;
 
     // Swap these around in raw image data
-    var chars = this.settings.chars.split('');
+    var chars = settings.chars.split('');
 
     // Separate mime type and data
     var dataUrlParts = dataUrl.split(',');
@@ -74,16 +66,7 @@ Witz.prototype = {
     dataUrl = dataUrlType + ',' + dataUrlData;
 
     return dataUrl;
-  }
-};
-
-Witz.defaults = {
-
-  // List of characters to choose from
-  chars: '.!()ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/+-',
-
-  // Split into how many chunks?
-  chunks: 23
+  };
 };
 
 module.exports = Witz;
