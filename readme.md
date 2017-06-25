@@ -17,7 +17,7 @@ var source = document.createElement('img');
 var target = document.createElement('img');
 var buffer = document.createElement('canvas').getContext('2d');
 
-var filter = new Witz({
+var filter = Witz({
 	chunks: 10
 });
 
@@ -28,7 +28,7 @@ source.addEventListener('load', function _onImageReady(e) {
 	buffer.drawImage(source, 0, 0);
 
 	// Filter accepts and returns a dataURL
-	target.src = filter.that(buffer.canvas.toDataURL('image/jpeg', 0.01));
+	target.src = filter(buffer.canvas.toDataURL('image/jpeg', 0.01));
 }, false);
 
 source.setAttribute('crossOrigin', 'anonymous');
@@ -43,7 +43,3 @@ npm run example
 # Open using default browser
 open http://localhost:8000
 ```
-
-### More
-- [r/glitch_art](https://www.reddit.com/r/glitch_art/ "Glitch art subreddit")
-- [gli.tc/h](http://gli.tc/h/)
