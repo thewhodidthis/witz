@@ -1,6 +1,7 @@
 const canvas = document.querySelector('canvas');
 const buffer = canvas.cloneNode();
-const master = document.createElement('img');
+
+const source = document.createElement('img');
 const output = document.createElement('img');
 
 const workerBlob = new Blob([document.getElementById('worker').textContent]);
@@ -26,13 +27,13 @@ output.addEventListener('load', () => {
   // worker.postMessage({ source: canvas.toDataURL('image/jpeg', 0.01) });
 });
 
-master.addEventListener('load', () => {
-  buffer.getContext('2d').drawImage(master, 0, 0);
+source.addEventListener('load', () => {
+  buffer.getContext('2d').drawImage(source, 0, 0);
 
   worker.postMessage({ source: buffer.toDataURL('image/jpeg', 0.5) });
 });
 
-master.setAttribute('src', 'master.png');
+source.setAttribute('src', 'master.png');
 
 document.addEventListener('click', reload);
 document.addEventListener('keydown', (e) => {

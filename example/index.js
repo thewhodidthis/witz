@@ -3,7 +3,8 @@
 
 var canvas = document.querySelector('canvas');
 var buffer = canvas.cloneNode();
-var master = document.createElement('img');
+
+var source = document.createElement('img');
 var output = document.createElement('img');
 
 var workerBlob = new Blob([document.getElementById('worker').textContent]);
@@ -29,13 +30,13 @@ output.addEventListener('load', function () {
   // worker.postMessage({ source: canvas.toDataURL('image/jpeg', 0.01) });
 });
 
-master.addEventListener('load', function () {
-  buffer.getContext('2d').drawImage(master, 0, 0);
+source.addEventListener('load', function () {
+  buffer.getContext('2d').drawImage(source, 0, 0);
 
   worker.postMessage({ source: buffer.toDataURL('image/jpeg', 0.5) });
 });
 
-master.setAttribute('src', 'master.png');
+source.setAttribute('src', 'master.png');
 
 document.addEventListener('click', reload);
 document.addEventListener('keydown', function (e) {
