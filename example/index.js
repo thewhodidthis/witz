@@ -6,10 +6,7 @@ var buffer = canvas.cloneNode();
 
 var source = document.createElement('img');
 var output = document.createElement('img');
-
-var workerBlob = new Blob([document.getElementById('worker').textContent]);
-var workerBlobUrl = (window.URL || window.webkitURL).createObjectURL(workerBlob);
-var worker = new Worker(workerBlobUrl);
+var worker = new Worker('worker.js');
 
 var reload = function reload() {
   document.location.reload(true);

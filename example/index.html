@@ -17,15 +17,6 @@
     </figure>
 
     <noscript><small><em>please enable javascript</em></small></noscript>
-    <script id="worker" type="javascript/worker">
-      importScripts(location.origin + '/witz.js');
-
-      self.addEventListener('message', (e) => {
-        const filter = Witz();
-
-        self.postMessage({ result: filter(e.data.source) });
-      });
-    </script>
     <script src="index.js"></script>
   </body>
 </html>
