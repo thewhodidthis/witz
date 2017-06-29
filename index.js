@@ -9,6 +9,7 @@ var Witz = function Witz(options) {
     chunks: 23
   }, options);
 
+  // Expects and returns data urls
   return function (source) {
     var dataUrl = source && source.toString() || '';
 
@@ -42,8 +43,8 @@ var Witz = function Witz(options) {
       chunks.push(data.substring(i, i + chunkSize));
     }
 
-    // Loop through chunks, leaving out the leading part
-    for (var _i = 1; _i <= chunksTotal; _i += 1) {
+    // Loop through chunks
+    for (var j = 0; j < chunksTotal; j += 1) {
       // Create random indices for selection of the glitch characters
       var char1 = Math.floor(Math.random() * chars.length);
       var char2 = Math.floor(Math.random() * chars.length);
@@ -53,7 +54,7 @@ var Witz = function Witz(options) {
         char2 = '9';
       }
 
-      chunks[_i] = chunks[_i].replace(chars[char1], chars[char2]);
+      chunks[j] = chunks[j].replace(chars[char1], chars[char2]);
     }
 
     // Stitch everything back together

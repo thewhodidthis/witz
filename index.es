@@ -41,8 +41,8 @@ const Witz = (options) => {
       chunks.push(data.substring(i, i + chunkSize));
     }
 
-    // Loop through chunks, leaving out the leading part
-    for (let i = 1; i <= chunksTotal; i += 1) {
+    // Loop through chunks
+    for (let j = 0; j < chunksTotal; j += 1) {
       // Create random indices for selection of the glitch characters
       const char1 = Math.floor((Math.random() * chars.length));
       let char2 = Math.floor((Math.random() * chars.length));
@@ -52,7 +52,7 @@ const Witz = (options) => {
         char2 = '9';
       }
 
-      chunks[i] = chunks[i].replace(chars[char1], chars[char2]);
+      chunks[j] = chunks[j].replace(chars[char1], chars[char2]);
     }
 
     // Stitch everything back together
