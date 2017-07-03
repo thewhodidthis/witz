@@ -10,16 +10,13 @@ npm install thewhodidthis/witz
 ### Usage
 Should work on your latest major browsers.
 ```js
-// Require like so if using browserify
-var Witz = require('@thewhodidthis/witz');
+var createFilter = require('@thewhodidthis/witz');
 
 var source = document.createElement('img');
 var target = document.createElement('img');
 var buffer = document.createElement('canvas').getContext('2d');
 
-var filter = Witz({
-	chunks: 10
-});
+var filter = createFilter({ chunks: 10 });
 
 buffer.canvas.width = 640;
 buffer.canvas.height = 360;
