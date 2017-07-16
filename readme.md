@@ -1,5 +1,5 @@
 ## Witz
-![Screenshot](/screenshot.jpg?raw=true "Screenshot")
+> Just another glitch factory
 
 ### Setup
 ```sh
@@ -22,10 +22,10 @@ buffer.canvas.width = 640;
 buffer.canvas.height = 360;
 
 source.addEventListener('load', function _onImageReady(e) {
-	buffer.drawImage(source, 0, 0);
+    buffer.drawImage(source, 0, 0);
 
-	// Filter accepts and returns a dataURL
-	target.src = filter(buffer.canvas.toDataURL('image/jpeg', 0.01));
+    // Filter accepts and returns a dataURL
+    target.src = filter(buffer.canvas.toDataURL('image/jpeg', 0.01));
 }, false);
 
 source.setAttribute('crossOrigin', 'anonymous');
@@ -33,10 +33,6 @@ source.setAttribute('src', '//source.unsplash.com/random/640x360');
 ```
 Try the example for typical use case using web workers.
 ```sh
-# Symlink freshly built standalone module into example folder
-# Start a php server on port 8000
+# Run script from within package folder
 npm run example
-
-# Open using default browser
-open http://localhost:8000
 ```
