@@ -1,73 +1,73 @@
 'use strict';
 
-var Witz = function Witz(options) {
-  var settings = Object.assign({
+// Yer standard limit up pseudo random `int` util
+var rand = function (max) { return function () { return Math.floor(Math.random() * max); }; };
+
+var Witz = function (options) {
+  // Avoid default params for now
+  var ref = Object.assign({
     // List of characters to choose from
     chars: '.!()ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/+-',
 
     // Split into how many chunks?
-    chunks: 23
+    count: 23
   }, options);
+  var chars = ref.chars;
+  var count = ref.count;
 
-  // Expects and returns data urls
-  return function (source) {
-    var dataUrl = source && source.toString() || '';
+  var sample = chars.split('');
+  var random = rand(sample.length);
 
-    // For splitting data into chunks
+  // Expects and returns `dataURL` like string,
+  // count override allowed
+  return function (dataUrl, splits) {
+    if ( splits === void 0 ) splits = count;
+
+    // Just in case
+    var source = (dataUrl && dataUrl.toString()) || '';
+
+    // Separate mime and data parts
+    var ref = source.split(',');
+    var mimeType = ref[0];
+    var sourceB64 = ref[1];
+
+    // Decode data string
+    var input = atob(sourceB64);
+
+    // Calculate chunk size
+    var inputW = input.length;
+    var chunkW = parseInt(inputW / Math.max(splits, 1), 10);
+
+    // Chunk data
     var chunks = [];
-    var chunksTotal = settings.chunks;
 
-    // Swap these around in raw image data
-    var chars = settings.chars.split('');
-
-    // Separate mime type and data
-    var dataUrlParts = dataUrl.split(',');
-
-    // Mime type
-    var dataUrlType = dataUrlParts[0];
-
-    // Data part
-    var dataUrlData = dataUrlParts[1];
-
-    // Decode input data
-    var data = atob(dataUrlData);
-
-    // Get input data size
-    var dataSize = data.length;
-
-    // Set chunk size
-    var chunkSize = parseInt(dataSize / chunksTotal, 10);
-
-    // Chunk the data
-    for (var i = 0; i < dataSize; i += chunkSize) {
-      chunks.push(data.substring(i, i + chunkSize));
+    for (var i = 0; i < inputW; i += chunkW) {
+      chunks.push(input.substring(i, i + chunkW));
     }
 
     // Loop through chunks
-    for (var j = 0; j < chunksTotal; j += 1) {
-      // Create random indices for selection of the glitch characters
-      var char1 = Math.floor(Math.random() * chars.length);
-      var char2 = Math.floor(Math.random() * chars.length);
+    for (var j = 0; j < splits; j += 1) {
+      // For looking up chars to replace
+      var seed0 = random();
+      var seed1 = random();
 
-      if (char2 === char1) {
-        // Witz :))
-        char2 = '9';
-      }
+      // Witz :))
+      var seed2 = seed0 !== seed1 ? seed1 : 9;
 
-      chunks[j] = chunks[j].replace(chars[char1], chars[char2]);
+      // Swap
+      chunks[j] = chunks[j].replace(sample[seed0], sample[seed2]);
     }
 
-    // Stitch everything back together
-    data = chunks.join('');
+    // Stitch
+    var result = chunks.join('');
 
-    // Re-base64-encode
-    dataUrlData = btoa(data);
+    // Encode
+    var resultB64 = btoa(result);
 
-    // Add mime type, replace input dataURL
-    dataUrl = dataUrlType + ',' + dataUrlData;
-
-    return dataUrl;
-  };
+    // Prepend original media type
+    return (mimeType + "," + resultB64)
+  }
 };
 
 module.exports = Witz;
+

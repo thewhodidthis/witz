@@ -1,72 +1,64 @@
+// Yer standard limit up pseudo random `int` util
+const rand = max => () => Math.floor(Math.random() * max)
+
 const Witz = (options) => {
-  const settings = Object.assign({
+  // Avoid default params for now
+  const { chars, count } = Object.assign({
     // List of characters to choose from
     chars: '.!()ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789/+-',
 
     // Split into how many chunks?
-    chunks: 23,
-  }, options);
+    count: 23
+  }, options)
 
-  // Expects and returns data urls
-  return (source) => {
-    let dataUrl = (source && source.toString()) || '';
+  const sample = chars.split('')
+  const random = rand(sample.length)
 
-    // For splitting data into chunks
-    const chunks = [];
-    const chunksTotal = settings.chunks;
+  // Expects and returns `dataURL` like string,
+  // count override allowed
+  return (dataUrl, splits = count) => {
+    // Just in case
+    const source = (dataUrl && dataUrl.toString()) || ''
 
-    // Swap these around in raw image data
-    const chars = settings.chars.split('');
+    // Separate mime and data parts
+    const [mimeType, sourceB64] = source.split(',')
 
-    // Separate mime type and data
-    const dataUrlParts = dataUrl.split(',');
+    // Decode data string
+    const input = atob(sourceB64)
 
-    // Mime type
-    const dataUrlType = dataUrlParts[0];
+    // Calculate chunk size
+    const inputW = input.length
+    const chunkW = parseInt(inputW / Math.max(splits, 1), 10)
 
-    // Data part
-    let dataUrlData = dataUrlParts[1];
+    // Chunk data
+    const chunks = []
 
-    // Decode input data
-    let data = atob(dataUrlData);
-
-    // Get input data size
-    const dataSize = data.length;
-
-    // Set chunk size
-    const chunkSize = parseInt(dataSize / chunksTotal, 10);
-
-    // Chunk the data
-    for (let i = 0; i < dataSize; i += chunkSize) {
-      chunks.push(data.substring(i, i + chunkSize));
+    for (let i = 0; i < inputW; i += chunkW) {
+      chunks.push(input.substring(i, i + chunkW))
     }
 
     // Loop through chunks
-    for (let j = 0; j < chunksTotal; j += 1) {
-      // Create random indices for selection of the glitch characters
-      const char1 = Math.floor((Math.random() * chars.length));
-      let char2 = Math.floor((Math.random() * chars.length));
+    for (let j = 0; j < splits; j += 1) {
+      // For looking up chars to replace
+      const seed0 = random()
+      const seed1 = random()
 
-      if (char2 === char1) {
-        // Witz :))
-        char2 = '9';
-      }
+      // Witz :))
+      const seed2 = seed0 !== seed1 ? seed1 : 9
 
-      chunks[j] = chunks[j].replace(chars[char1], chars[char2]);
+      // Swap
+      chunks[j] = chunks[j].replace(sample[seed0], sample[seed2])
     }
 
-    // Stitch everything back together
-    data = chunks.join('');
+    // Stitch
+    const result = chunks.join('')
 
-    // Re-base64-encode
-    dataUrlData = btoa(data);
+    // Encode
+    const resultB64 = btoa(result)
 
-    // Add mime type, replace input dataURL
-    dataUrl = `${dataUrlType},${dataUrlData}`;
+    // Prepend original media type
+    return `${mimeType},${resultB64}`
+  }
+}
 
-    return dataUrl;
-  };
-};
-
-export default Witz;
-
+export default Witz
