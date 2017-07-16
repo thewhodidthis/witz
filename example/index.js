@@ -1,15 +1,15 @@
 (function () {
 'use strict';
 
-var canvas = document.querySelector('canvas');
-var buffer = canvas.cloneNode();
+var master = document.querySelector('canvas').getContext('2d');
+var buffer = master.canvas.cloneNode();
 
 var source = document.createElement('img');
 var output = document.createElement('img');
 var worker = new Worker('worker.js');
 
-var reload = function reload() {
-  document.location.reload(true);
+var reload = function () {
+  document.location.reload();
 };
 
 if (window !== window.top) {
@@ -21,10 +21,10 @@ worker.addEventListener('message', function (e) {
 });
 
 output.addEventListener('load', function () {
-  canvas.getContext('2d').drawImage(output, 0, 0);
+  master.drawImage(output, 0, 0);
 
   // DANGER! DANGER!
-  // worker.postMessage({ source: canvas.toDataURL('image/jpeg', 0.01) });
+  // worker.postMessage({ source: master.canvas.toDataURL('image/jpeg', 0.01) });
 });
 
 source.addEventListener('load', function () {
@@ -35,15 +35,21 @@ source.addEventListener('load', function () {
 
 source.setAttribute('src', 'master.png');
 
-document.addEventListener('click', reload);
+// Because iOS may struggle at times,
+// avoid drawing blanks this way
+output.setAttribute('src', 'master.png');
+
+document.addEventListener('touchstart', reload);
+document.addEventListener('mousedown', reload);
 document.addEventListener('keydown', function (e) {
   switch (e.keyCode) {
-    case 32:
-      reload();
-      break;
-    default:
-      break;
+  case 32:
+    reload();
+    break
+  default:
+    break
   }
 });
 
 }());
+
