@@ -1,48 +1,56 @@
-const master = document.querySelector('canvas').getContext('2d')
-const buffer = master.canvas.cloneNode()
-
-const source = document.createElement('img')
-const output = document.createElement('img')
-const worker = new Worker('worker.js')
-
-const reload = () => {
-  document.location.reload()
-}
+const boards = document.querySelectorAll('canvas')
+const images = document.querySelectorAll('img')
 
 if (window !== window.top) {
   document.documentElement.className.classList.add('is-iframe')
 }
 
-worker.addEventListener('message', (e) => {
-  output.setAttribute('src', e.data.result)
-})
+const params = [
+  { count: 0 },
+  { up: true },
+  { count: 9 }
+]
 
-output.addEventListener('load', () => {
-  master.drawImage(output, 0, 0)
+Array.from(images).map(img => img.alt).forEach((file, i) => {
+  const config = params[i % params.length]
 
-  // DANGER! DANGER!
-  // worker.postMessage({ source: master.canvas.toDataURL('image/jpeg', 0.01) });
-})
+  const canvas = boards[i]
+  const master = canvas.getContext('2d')
+  const buffer = canvas.cloneNode().getContext('2d')
 
-source.addEventListener('load', () => {
-  buffer.getContext('2d').drawImage(source, 0, 0)
-  worker.postMessage({ source: buffer.toDataURL('image/jpeg', 0.5) })
-})
+  const source = document.createElement('img')
+  const output = document.createElement('img')
+  const worker = new Worker('worker.js')
 
-source.setAttribute('src', 'master.png')
+  worker.addEventListener('message', (e) => {
+    output.setAttribute('src', e.data.result)
+  })
 
-// Because iOS may struggle at times,
-// avoid drawing blanks this way
-output.setAttribute('src', 'master.png')
+  output.addEventListener('load', () => {
+    master.save()
 
-document.addEventListener('touchstart', reload)
-document.addEventListener('mousedown', reload)
-document.addEventListener('keydown', (e) => {
-  switch (e.keyCode) {
-  case 32:
-    reload()
-    break
-  default:
-    break
-  }
+    // Only rotate glitch versions
+    if (config.up && output.src.indexOf('data') >= 0) {
+      master.translate(0, canvas.height)
+      master.rotate(-Math.PI * 0.5)
+    }
+
+    master.drawImage(output, 0, 0)
+    master.restore()
+  })
+
+  // Because iOS may struggle at times,
+  // avoid drawing blanks this way
+  output.setAttribute('src', file)
+
+  source.addEventListener('load', () => {
+    const angle = config.up ? Math.PI * 0.5 : 0
+    const shift = config.up ? -1 * canvas.height : 0
+
+    buffer.rotate(angle)
+    buffer.drawImage(source, 0, shift)
+    worker.postMessage({ config, source: buffer.canvas.toDataURL('image/jpeg', 0.5) })
+  })
+
+  source.setAttribute('src', file)
 })

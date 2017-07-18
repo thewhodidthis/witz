@@ -18,6 +18,7 @@ var Witz = function (options) {
 
   var sample = chars.split('');
   var random = rand(sample.length);
+  var backup = Math.min(sample.length, 9);
 
   // Expects and returns `dataURL` like string,
   // count override allowed
@@ -53,7 +54,7 @@ var Witz = function (options) {
       var seed1 = random();
 
       // Witz :))
-      var seed2 = seed0 !== seed1 ? seed1 : 9;
+      var seed2 = seed0 !== seed1 ? seed1 : backup;
 
       // Swap
       chunks[j] = chunks[j].replace(sample[seed0], sample[seed2]);
