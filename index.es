@@ -13,6 +13,7 @@ const Witz = (options) => {
 
   const sample = chars.split('')
   const random = rand(sample.length)
+  const backup = Math.min(sample.length, 9)
 
   // Expects and returns `dataURL` like string,
   // count override allowed
@@ -44,7 +45,7 @@ const Witz = (options) => {
       const seed1 = random()
 
       // Witz :))
-      const seed2 = seed0 !== seed1 ? seed1 : 9
+      const seed2 = seed0 !== seed1 ? seed1 : backup
 
       // Swap
       chunks[j] = chunks[j].replace(sample[seed0], sample[seed2])
