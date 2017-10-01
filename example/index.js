@@ -5,7 +5,7 @@ var boards = document.querySelectorAll('canvas');
 var images = document.querySelectorAll('img');
 
 if (window !== window.top) {
-  document.documentElement.className.classList.add('is-iframe');
+  document.documentElement.classList.add('is-iframe');
 }
 
 var params = [

@@ -2,7 +2,7 @@ const boards = document.querySelectorAll('canvas')
 const images = document.querySelectorAll('img')
 
 if (window !== window.top) {
-  document.documentElement.className.classList.add('is-iframe')
+  document.documentElement.classList.add('is-iframe')
 }
 
 const params = [
