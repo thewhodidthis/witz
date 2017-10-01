@@ -3,7 +3,7 @@
 // Yer standard limit up pseudo random `int` util
 var rand = function (max) { return function () { return Math.floor(Math.random() * max); }; };
 
-var Witz = function (options) {
+var witz = function (options) {
   // Avoid default params for now
   var ref = Object.assign({
     // List of characters to choose from
@@ -70,5 +70,5 @@ var Witz = function (options) {
   }
 };
 
-module.exports = Witz;
+module.exports = witz;
 

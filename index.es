@@ -1,7 +1,7 @@
 // Yer standard limit up pseudo random `int` util
 const rand = max => () => Math.floor(Math.random() * max)
 
-const Witz = (options) => {
+const witz = (options) => {
   // Avoid default params for now
   const { chars, count } = Object.assign({
     // List of characters to choose from
@@ -62,4 +62,4 @@ const Witz = (options) => {
   }
 }
 
-export default Witz
+export default witz
