@@ -1,6 +1,6 @@
 {
   "name": "@thewhodidthis/witz",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Helps mess up pictures",
   "main": "index.js",
   "module": "index.es",
