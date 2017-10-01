@@ -10,13 +10,13 @@ npm install thewhodidthis/witz
 ### Usage
 Should work on your latest major browsers.
 ```js
-var createFilter = require('@thewhodidthis/witz');
+var witz = require('@thewhodidthis/witz');
 
 var source = document.createElement('img');
 var target = document.createElement('img');
 var buffer = document.createElement('canvas').getContext('2d');
 
-var filter = createFilter({ chunks: 10 });
+var filter = witz({ chunks: 10 });
 
 buffer.canvas.width = 640;
 buffer.canvas.height = 360;
