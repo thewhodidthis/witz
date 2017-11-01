@@ -1,16 +1,16 @@
-require('kpow')()
+import 'cutaway'
+import { assert, report } from 'tapeless'
+import createFilter from './index.es'
 
-const test = require('tape')
-const createFilter = require('./')
+const { ok, equal } = assert
 
-test('will operate', (t) => {
-  const canvas = Object.assign(document.createElement('canvas'), { width: 10, height: 10 })
-  const source = canvas.toDataURL('image/jpeg', 0.01)
+const canvas = Object.assign(document.createElement('canvas'), { width: 10, height: 10 })
+const source = canvas.toDataURL('image/jpeg', 0.01)
 
-  const filter = createFilter()
-  const result = filter(source)
+const filter = createFilter()
+const result = filter(source)
 
-  t.equal(typeof filter, 'function', 'returns funtion on init')
-  t.ok(result.indexOf('image/jpeg'), 'output type is a match')
-  t.end()
-})
+equal(typeof filter, 'function', 'returns funtion on init', 'will operate')
+ok(result.indexOf('image/jpeg'), 'output type is a match')
+
+report()
