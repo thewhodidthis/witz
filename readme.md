@@ -3,36 +3,28 @@
 
 ### Setup
 ```sh
-# Install from github
-npm install thewhodidthis/witz
+# Fetch latest from github
+npm i thewhodidthis/witz
 ```
 
 ### Usage
-Should work on your latest major browsers.
 ```js
-var witz = require('@thewhodidthis/witz');
+import filter from '@thewhodidthis/witz'
 
-var source = document.createElement('img');
-var target = document.createElement('img');
-var buffer = document.createElement('canvas').getContext('2d');
+const source = document.createElement('img')
+const target = document.createElement('img')
+const buffer = document.createElement('canvas').getContext('2d')
 
-var filter = witz({ chunks: 10 });
-
-buffer.canvas.width = 640;
-buffer.canvas.height = 360;
+const canvas = Object.assign(buffer.canvas, { width: 640, height: 360 })
+const output = filter({ chunks: 10 })
 
 source.addEventListener('load', function _onImageReady(e) {
-    buffer.drawImage(source, 0, 0);
+    buffer.drawImage(source, 0, 0)
 
     // Filter accepts and returns a dataURL
-    target.src = filter(buffer.canvas.toDataURL('image/jpeg', 0.01));
-}, false);
+    target.src = output(canvas.toDataURL('image/jpeg', 0.01))
+}, false)
 
-source.setAttribute('crossOrigin', 'anonymous');
-source.setAttribute('src', '//source.unsplash.com/random/640x360');
-```
-Try the example for typical use case using web workers.
-```sh
-# Run script from within package folder
-npm run example
+source.setAttribute('crossOrigin', 'anonymous')
+source.setAttribute('src', '//source.unsplash.com/random/640x360')
 ```
