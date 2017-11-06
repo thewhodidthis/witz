@@ -9,22 +9,25 @@ npm i thewhodidthis/witz
 
 ### Usage
 ```js
-import filter from '@thewhodidthis/witz'
+const bender = require('@thewhodidthis/witz')
 
 const source = document.createElement('img')
 const target = document.createElement('img')
 const buffer = document.createElement('canvas').getContext('2d')
+const figure = { width: 640, height: 360 }
 
-const canvas = Object.assign(buffer.canvas, { width: 640, height: 360 })
-const output = filter({ chunks: 10 })
+const canvas = Object.assign(buffer.canvas, figure)
+const filter = bender({ chunks: 10 })
 
-source.addEventListener('load', function _onImageReady(e) {
+source.addEventListener('load', () => {
     buffer.drawImage(source, 0, 0)
 
-    // Filter accepts and returns a dataURL
-    target.src = output(canvas.toDataURL('image/jpeg', 0.01))
-}, false)
+    const data = canvas.toDataURL('image/jpeg', 0.01)
 
-source.setAttribute('crossOrigin', 'anonymous')
-source.setAttribute('src', '//source.unsplash.com/random/640x360')
+    // Filter accepts and returns a dataURL
+    target.src = filter(data)
+})
+
+source.crossOrigin = 'anonymous'
+source.src = `//source.unsplash.com/random/${figure.width}x${figure.height}`
 ```
