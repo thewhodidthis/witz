@@ -1,16 +1,10 @@
-import 'cutaway'
-import { assert, report } from 'tapeless'
-import createFilter from './index.es'
+const { ok, equal } = require('tapeless')
+const createFilter = require('./')
 
-const { ok, equal } = assert
-
-const canvas = Object.assign(document.createElement('canvas'), { width: 10, height: 10 })
-const source = canvas.toDataURL('image/jpeg', 0.01)
+const sample = 'data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQEAYAAABPYyMiAAAABmJLR0T///////8JWPfcAAAACXBIWXMAAABIAAAASABGyWs+AAAAF0lEQVRIx2NgGAWjYBSMglEwCkbBSAcACBAAAeaR9cIAAAAASUVORK5CYII='
 
 const filter = createFilter()
-const result = filter(source)
+const result = filter(sample)
 
-equal(typeof filter, 'function', 'returns funtion on init', 'will operate')
-ok(result.indexOf('image/jpeg'), 'output type is a match')
-
-report()
+equal(typeof filter, 'function', 'returns lambda on init', 'will operate')
+ok(result, 'output type is a match')
