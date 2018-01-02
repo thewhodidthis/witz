@@ -1,7 +1,9 @@
-importScripts('witz.js');
+importScripts('filter.js')
 
-self.addEventListener('message', function (e) {
-  var filter = witz(e.data.config);
+self.addEventListener('message', (e) => {
+  const filter = witz(e.data.config)
 
-  self.postMessage({ result: filter(e.data.source) });
-});
+  self.postMessage({
+    result: filter(e.data.source)
+  })
+})
