@@ -5,52 +5,67 @@ if (window !== window.top) {
   document.documentElement.classList.add('is-iframe')
 }
 
+const halfPI = Math.PI * 0.5
 const params = [
-  { count: 0 },
+  { depth: 0 },
   { up: true },
-  { count: 9 }
+  { depth: 9 }
 ]
 
-Array.from(images).map(img => img.alt).forEach((file, i) => {
+Array.from(images).map(img => img.alt).forEach((src, i) => {
   const config = params[i % params.length]
-
   const canvas = boards[i]
-  const master = canvas.getContext('2d')
+
+  const target = canvas.getContext('2d')
   const buffer = canvas.cloneNode().getContext('2d')
 
-  const source = document.createElement('img')
+  const master = document.createElement('img')
   const output = document.createElement('img')
+
   const worker = new Worker('worker.js')
 
+  const update = () => {
+    // This method of corrpting images works best with JPGs,
+    // which may be additionally desecrated specifying the
+    // quality attribute less than 1
+    const source = buffer.canvas.toDataURL('image/jpeg', 0.5)
+
+    worker.postMessage({ config, source })
+  }
+
+  // This needs fixing, fires more times than expected
   worker.addEventListener('message', (e) => {
     output.setAttribute('src', e.data.result)
   })
 
   output.addEventListener('load', () => {
-    master.save()
+    target.save()
 
     // Only rotate glitch versions
-    if (config.up && output.src.indexOf('data') >= 0) {
-      master.translate(0, canvas.height)
-      master.rotate(-Math.PI * 0.5)
+    if (config.up) {
+      target.translate(0, canvas.height)
+      target.rotate(-halfPI)
     }
 
-    master.drawImage(output, 0, 0)
-    master.restore()
+    target.drawImage(output, 0, 0)
+    target.restore()
   })
 
-  // Because iOS may struggle at times,
-  // avoid drawing blanks this way
-  output.setAttribute('src', file)
-
-  source.addEventListener('load', () => {
-    const angle = config.up ? Math.PI * 0.5 : 0
-    const shift = config.up ? -1 * canvas.height : 0
-
-    buffer.rotate(angle)
-    buffer.drawImage(source, 0, shift)
-    worker.postMessage({ config, source: buffer.canvas.toDataURL('image/jpeg', 0.5) })
+  // Avoid drawing blanks
+  output.addEventListener('error', () => {
+    // Try again
+    update()
   })
 
-  source.setAttribute('src', file)
+  master.addEventListener('load', () => {
+    if (config.up) {
+      buffer.rotate(halfPI)
+      buffer.translate(0, -canvas.height)
+    }
+
+    buffer.drawImage(master, 0, 0)
+    update()
+  })
+
+  master.setAttribute('src', src)
 })
