@@ -1,8 +1,8 @@
 (function () {
 'use strict';
 
+var images = document.querySelectorAll('canvas img');
 var boards = document.querySelectorAll('canvas');
-var images = document.querySelectorAll('img');
 
 if (window !== window.top) {
   document.documentElement.classList.add('is-iframe');
@@ -10,7 +10,6 @@ if (window !== window.top) {
 
 var halfPI = Math.PI * 0.5;
 var params = [
-  { depth: 0 },
   { up: true },
   { depth: 9 }
 ];

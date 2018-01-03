@@ -1,5 +1,5 @@
+const images = document.querySelectorAll('canvas img')
 const boards = document.querySelectorAll('canvas')
-const images = document.querySelectorAll('img')
 
 if (window !== window.top) {
   document.documentElement.classList.add('is-iframe')
@@ -7,7 +7,6 @@ if (window !== window.top) {
 
 const halfPI = Math.PI * 0.5
 const params = [
-  { depth: 0 },
   { up: true },
   { depth: 9 }
 ]
