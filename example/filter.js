@@ -1,4 +1,4 @@
-var witz = (function () {
+var filter = (function () {
 'use strict';
 
 // # Witz
@@ -36,7 +36,7 @@ var witz = function (options) {
     // Source: https://tools.ietf.org/html/rfc4648#page-5
     chars: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',
 
-    // Split into how many parts when processing? (ie. resolution)
+    // Resolution, runs per call
     depth: 23
   }, options);
   var chars = ref.chars;
