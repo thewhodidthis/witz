@@ -3,8 +3,8 @@
 // # Witz
 // Helps produce glitch
 
-// Corrupt by recursively inserting random pick from base64 character
-// lookup at random index along target string
+// Corrupt by recursively inserting random pick from base64
+// charset at random index along target string
 var glitch = function (lookup) {
   var random = function (peak) {
     if ( peak === void 0 ) peak = lookup.length;
@@ -18,7 +18,7 @@ var glitch = function (lookup) {
 
     var seed = random(data.length);
     var pick = random();
-    var sign = lookup[pick];
+    var sign = lookup.charAt(pick);
 
     var crop = data.substring(0, seed) + sign + data.substring(seed + 1);
 
@@ -42,7 +42,7 @@ var witz = function (options) {
   var depth = ref.depth;
 
   // Strap in
-  var filter = glitch(chars.split(''));
+  var filter = glitch(chars);
 
   // Expects and returns dataURL or plain base64 encoded string,
   // allows for overriding depth
