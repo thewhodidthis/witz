@@ -16,11 +16,10 @@ var glitch = function (lookup) {
       return data
     }
 
-    var seed = random(data.length);
-    var pick = random();
-    var sign = lookup.charAt(pick);
+    var mark = random(data.length);
+    var seed = lookup.charAt(random());
 
-    var crop = data.substring(0, seed) + sign + data.substring(seed + 1);
+    var crop = data.substring(0, mark) + seed + data.substring(mark + 1);
 
     return filter(crop, turn - 1)
   };

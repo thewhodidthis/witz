@@ -10,11 +10,10 @@ const glitch = (lookup) => {
       return data
     }
 
-    const seed = random(data.length)
-    const pick = random()
-    const sign = lookup.charAt(pick)
+    const mark = random(data.length)
+    const seed = lookup.charAt(random())
 
-    const crop = data.substring(0, seed) + sign + data.substring(seed + 1)
+    const crop = data.substring(0, mark) + seed + data.substring(mark + 1)
 
     return filter(crop, turn - 1)
   }
