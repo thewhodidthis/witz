@@ -1,7 +1,7 @@
 {
   "name": "@thewhodidthis/witz",
   "version": "2.0.1",
-  "description": "Helps mess up pictures",
+  "description": "Helps produce glitch",
   "main": "index",
   "module": "index.mjs",
   "homepage": "https://github.com/thewhodidthis/witz#readme",
@@ -17,7 +17,7 @@
     "test": "node test.js",
     "prestart": "eslint index.mjs",
     "start": "rollup -f cjs index.mjs | buble > index.js",
-    "poststart": "rollup -f iife -n witz index.mjs | buble > example/filter.js",
+    "poststart": "rollup -f iife -n filter index.mjs | buble > example/filter.js",
     "preexample": "eslint example/index.es",
     "example": "cd example; rollup -f iife index.es | buble > index.js"
   },
