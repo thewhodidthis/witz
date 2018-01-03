@@ -38,18 +38,18 @@ const witz = (options) => {
 
   // Expects and returns dataURL or plain base64 encoded string,
   // allows for overriding depth
-  return (source = '', N = depth) => {
+  return (target = '', N = depth) => {
     // Bypass
     if (!N) {
-      return source
+      return target
     }
 
     // Extract data past the comma in dataURL if need be
-    const split = source.indexOf(',') + 1
-    const scoop = source.slice(split)
+    const split = target.indexOf(',') + 1
+    const scoop = target.slice(split)
 
     // Stitch up
-    return source.slice(0, split) + filter(scoop, N)
+    return target.slice(0, split) + filter(scoop, N)
   }
 }
 

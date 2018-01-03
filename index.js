@@ -46,21 +46,21 @@ var witz = function (options) {
 
   // Expects and returns dataURL or plain base64 encoded string,
   // allows for overriding depth
-  return function (source, N) {
-    if ( source === void 0 ) source = '';
+  return function (target, N) {
+    if ( target === void 0 ) target = '';
     if ( N === void 0 ) N = depth;
 
     // Bypass
     if (!N) {
-      return source
+      return target
     }
 
     // Extract data past the comma in dataURL if need be
-    var split = source.indexOf(',') + 1;
-    var scoop = source.slice(split);
+    var split = target.indexOf(',') + 1;
+    var scoop = target.slice(split);
 
     // Stitch up
-    return source.slice(0, split) + filter(scoop, N)
+    return target.slice(0, split) + filter(scoop, N)
   }
 };
 
