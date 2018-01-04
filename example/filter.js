@@ -1,4 +1,4 @@
-var filter = (function () {
+var witz = (function () {
 'use strict';
 
 // # Witz
