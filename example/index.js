@@ -8,7 +8,7 @@ if (window !== window.top) {
   document.documentElement.classList.add('is-iframe');
 }
 
-var halfPI = Math.PI * 0.5;
+var upward = Math.PI * 0.5;
 var params = [
   { up: true },
   { depth: 9 }
@@ -44,7 +44,7 @@ Array.from(images).map(function (img) { return img.alt; }).forEach(function (src
     // Only rotate glitch versions
     if (config.up) {
       target.translate(0, canvas.height);
-      target.rotate(-halfPI);
+      target.rotate(-upward);
     }
 
     target.drawImage(output, 0, 0);
@@ -59,7 +59,7 @@ Array.from(images).map(function (img) { return img.alt; }).forEach(function (src
 
   master.addEventListener('load', function () {
     if (config.up) {
-      buffer.rotate(halfPI);
+      buffer.rotate(upward);
       buffer.translate(0, -canvas.height);
     }
 

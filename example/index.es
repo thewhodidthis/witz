@@ -5,7 +5,7 @@ if (window !== window.top) {
   document.documentElement.classList.add('is-iframe')
 }
 
-const halfPI = Math.PI * 0.5
+const upward = Math.PI * 0.5
 const params = [
   { up: true },
   { depth: 9 }
@@ -41,7 +41,7 @@ Array.from(images).map(img => img.alt).forEach((src, i) => {
     // Only rotate glitch versions
     if (config.up) {
       target.translate(0, canvas.height)
-      target.rotate(-halfPI)
+      target.rotate(-upward)
     }
 
     target.drawImage(output, 0, 0)
@@ -56,7 +56,7 @@ Array.from(images).map(img => img.alt).forEach((src, i) => {
 
   master.addEventListener('load', () => {
     if (config.up) {
-      buffer.rotate(halfPI)
+      buffer.rotate(upward)
       buffer.translate(0, -canvas.height)
     }
 
