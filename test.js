@@ -1,3 +1,5 @@
+'use strict'
+
 const { ok, equal } = require('tapeless')
 const createFilter = require('./')
 
