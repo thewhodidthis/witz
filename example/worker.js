@@ -1,4 +1,4 @@
-importScripts('filter.js')
+importScripts('witz.js')
 
 self.addEventListener('message', (e) => {
   const filter = witz(e.data.config)
