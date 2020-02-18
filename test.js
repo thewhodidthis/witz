@@ -9,5 +9,10 @@ const sample = 'data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQEAYAAAB
 const filter = createFilter()
 const result = filter(sample)
 
-equal(typeof filter, 'function', 'returns lambda on init', 'will operate')
-ok(result, 'output type is a match')
+equal
+  .describe('returns lambda on init')
+  .test(typeof filter, 'function')
+
+ok
+  .describe('output type is a match')
+  .test(result)
