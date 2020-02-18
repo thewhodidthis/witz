@@ -1,11 +1,10 @@
-const images = document.querySelectorAll('li > img')
-const boards = document.querySelectorAll('canvas')
-
 const upward = Math.PI * 0.5
 const params = [
   { up: true },
   { depth: 9 }
 ]
+
+const boards = document.querySelectorAll('canvas')
 
 Array.from(boards).forEach((canvas, i) => {
   const config = params[i % params.length]
@@ -15,8 +14,6 @@ Array.from(boards).forEach((canvas, i) => {
 
   const master = document.createElement('img')
   const output = document.createElement('img')
-
-  const { src } = images[i % images.length]
 
   const worker = new Worker('worker.js')
 
@@ -61,5 +58,5 @@ Array.from(boards).forEach((canvas, i) => {
     update()
   })
 
-  master.setAttribute('src', src)
+  master.setAttribute('src', canvas.dataset.src)
 })
