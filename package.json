@@ -1,6 +1,6 @@
 {
   "name": "@thewhodidthis/witz",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "Helps produce glitch",
   "main": "index",
   "module": "index.mjs",
