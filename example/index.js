@@ -1,9 +1,5 @@
-const images = document.querySelectorAll('canvas img')
+const images = document.querySelectorAll('li > img')
 const boards = document.querySelectorAll('canvas')
-
-if (window !== window.top) {
-  document.documentElement.classList.add('is-iframe')
-}
 
 const upward = Math.PI * 0.5
 const params = [
@@ -11,15 +7,16 @@ const params = [
   { depth: 9 }
 ]
 
-Array.from(images).map(img => img.alt).forEach((src, i) => {
+Array.from(boards).forEach((canvas, i) => {
   const config = params[i % params.length]
-  const canvas = boards[i]
 
   const target = canvas.getContext('2d')
   const buffer = canvas.cloneNode().getContext('2d')
 
   const master = document.createElement('img')
   const output = document.createElement('img')
+
+  const { src } = images[i % images.length]
 
   const worker = new Worker('worker.js')
 
