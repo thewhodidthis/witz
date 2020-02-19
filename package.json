@@ -2,41 +2,41 @@
   "name": "@thewhodidthis/witz",
   "version": "2.0.5",
   "description": "Helps produce glitch",
-  "main": "index",
-  "module": "index.mjs",
-  "homepage": "https://github.com/thewhodidthis/witz#readme",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/thewhodidthis/witz.git"
-  },
-  "bugs": {
-    "url": "https://github.com/thewhodidthis/witz/issues"
-  },
-  "scripts": {
-    "pretest": "eslint test.js",
-    "test": "node test.js",
-    "prestart": "eslint index.mjs",
-    "start": "rollup -f cjs index.mjs > index.js",
-    "preexample": "eslint example/index.js",
-    "example": "rollup -f umd -n witz index.mjs > example/witz.js"
-  },
-  "eslintConfig": {
-    "extends": "@thewhodidthis"
-  },
-  "engines": {
-    "node": ">=6.11.0",
-    "npm": ">=3.10.10"
-  },
-  "devDependencies": {
-    "@thewhodidthis/eslint-config": "^0.0.11",
-    "eslint": "^6.8.0",
-    "rollup": "^1.31.1",
-    "tapeless": "^0.0.7"
-  },
   "keywords": [
     "pixels",
     "canvas"
   ],
+  "homepage": "https://github.com/thewhodidthis/witz#readme",
+  "bugs": {
+    "url": "https://github.com/thewhodidthis/witz/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thewhodidthis/witz.git"
+  },
+  "license": "Unlicense",
   "author": "sChzs BkgNns <sotirios.bakagiannis@gmail.com> (https://www.thewhodidthis.com)",
-  "license": "Unlicense"
+  "main": "index",
+  "module": "index.mjs",
+  "scripts": {
+    "preexample": "eslint example/index.js",
+    "example": "rollup -f umd -n witz index.mjs > example/witz.js",
+    "prestart": "eslint index.mjs",
+    "start": "rollup -f cjs index.mjs > index.js",
+    "pretest": "eslint test.js",
+    "test": "node test.js"
+  },
+  "eslintConfig": {
+    "extends": "@thewhodidthis"
+  },
+  "devDependencies": {
+    "@thewhodidthis/eslint-config": "^0.0.16",
+    "eslint": "^6.8.0",
+    "rollup": "^1.31.1",
+    "tapeless": "^0.0.9"
+  },
+  "engines": {
+    "node": ">=6.11.0",
+    "npm": ">=3.10.10"
+  }
 }
