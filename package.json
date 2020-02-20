@@ -20,9 +20,9 @@
   "module": "index.mjs",
   "scripts": {
     "preexample": "eslint example/index.js",
-    "example": "rollup -f umd -n witz index.mjs > example/witz.js",
+    "example": "rollup -f umd -n witz -o example/witz.js index.mjs",
     "prestart": "eslint index.mjs",
-    "start": "rollup -f cjs index.mjs > index.js",
+    "start": "rollup -f cjs -o index.js index.mjs",
     "pretest": "eslint test.js",
     "test": "node test.js"
   },
