@@ -14,22 +14,22 @@ const witz = require('./')
 
 const pimp = witz()
 const save = (data, file = './target.jpg') => fs.writeFile(file, data, (error) => {
-    if (error) {
-        throw error
-    }
+  if (error) {
+    throw error
+  }
 
-    console.log('Done!')
+  console.log('Done!')
 })
 
 fs.readFile('./source.jpg', (error, data) => {
-    if (error) {
-        throw error
-    }
+  if (error) {
+    throw error
+  }
 
-    const master = Buffer(data).toString('base64')
-    const sample = pimp(master)
-    const result = Buffer.from(sample, 'base64')
+  const master = Buffer(data).toString('base64')
+  const sample = pimp(master)
+  const result = Buffer.from(sample, 'base64')
 
-    save(result)
+  save(result)
 })
 ```
