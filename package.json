@@ -14,10 +14,13 @@
     "type": "git",
     "url": "git+https://github.com/thewhodidthis/witz.git"
   },
-  "license": "Unlicense",
-  "author": "sChzs BkgNns <sotirios.bakagiannis@gmail.com> (https://www.thewhodidthis.com)",
+  "license": "ISC",
+  "author": "Sotiri Bakagiannis <sotirios.bakagiannis@gmail.com> (http://thewhodidthis.com)",
   "main": "index",
   "module": "index.mjs",
+  "directories": {
+    "example": "example"
+  },
   "scripts": {
     "preexample": "eslint example/index.js",
     "example": "rollup -f umd -n witz -o example/witz.js index.mjs",
@@ -29,6 +32,7 @@
   "eslintConfig": {
     "extends": "@thewhodidthis"
   },
+  "dependencies": {},
   "devDependencies": {
     "@thewhodidthis/eslint-config": "^0.0.17",
     "eslint": "^6.8.0",
