@@ -1,6 +1,6 @@
 ## about
 
-Just another glitch producing filter.
+Blindly corrupts images in string form.
 
 ## setup
 
