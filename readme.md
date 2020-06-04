@@ -4,11 +4,11 @@ Blindly corrupts images in string form.
 
 ## setup
 
-Fetch latest from GitHub directly,
+Fetch latest from GitHub directly:
 
 ```sh
 # Includes ESM and CJS versions
-npm i thewhodidthis/witz
+npm install thewhodidthis/witz
 ```
 
 ## usage
