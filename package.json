@@ -25,7 +25,7 @@
   },
   "scripts": {
     "preexample": "eslint example/index.js",
-    "example": "rollup -f umd -n witz -o example/witz.js main.js",
+    "example": "esbuild --bundle --global-name=witz --outfile=example/witz.js main.js",
     "prestart": "eslint main.js",
     "start": "npm run example",
     "pretest": "eslint test.js",
@@ -37,11 +37,13 @@
   "devDependencies": {
     "@thewhodidthis/eslint-config": "^1.0.3",
     "eslint": "^7.27.0",
-    "rollup": "^2.50.3",
     "tapeless": "^1.0.5"
   },
   "engines": {
     "node": ">=14.17.0",
     "npm": ">=6.14.13"
+  },
+  "dependencies": {
+    "esbuild": "^0.12.5"
   }
 }
