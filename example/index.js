@@ -1,35 +1,35 @@
 const upward = Math.PI * 0.5
 const params = [
   { up: true },
-  { depth: 9 }
+  { depth: 9 },
 ]
 
-const boards = document.querySelectorAll('canvas')
+const boards = document.querySelectorAll("canvas")
 
 Array.from(boards).forEach((canvas, i) => {
   const config = params[i % params.length]
 
-  const target = canvas.getContext('2d')
-  const buffer = canvas.cloneNode().getContext('2d')
+  const target = canvas.getContext("2d")
+  const buffer = canvas.cloneNode().getContext("2d")
 
-  const master = document.createElement('img')
-  const output = document.createElement('img')
+  const master = document.createElement("img")
+  const output = document.createElement("img")
 
-  const worker = new Worker('worker.js')
+  const worker = new Worker("worker.js")
 
   const update = () => {
     // Works best with JPG images
-    const source = buffer.canvas.toDataURL('image/jpeg', 0.5)
+    const source = buffer.canvas.toDataURL("image/jpeg", 0.5)
 
     worker.postMessage({ config, source })
   }
 
   // This needs fixing, fires more times than expected
-  worker.addEventListener('message', (e) => {
-    output.setAttribute('src', e.data.result)
+  worker.addEventListener("message", (e) => {
+    output.setAttribute("src", e.data.result)
   })
 
-  output.addEventListener('load', () => {
+  output.addEventListener("load", () => {
     target.save()
 
     // Only rotate glitch versions
@@ -43,12 +43,12 @@ Array.from(boards).forEach((canvas, i) => {
   })
 
   // Avoid drawing blanks
-  output.addEventListener('error', () => {
+  output.addEventListener("error", () => {
     // Try again
     update()
   })
 
-  master.addEventListener('load', () => {
+  master.addEventListener("load", () => {
     if (config.up) {
       buffer.rotate(upward)
       buffer.translate(0, -canvas.height)
@@ -58,5 +58,5 @@ Array.from(boards).forEach((canvas, i) => {
     update()
   })
 
-  master.setAttribute('src', canvas.dataset.src)
+  master.setAttribute("src", canvas.dataset.src)
 })
