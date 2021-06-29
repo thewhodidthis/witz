@@ -26,10 +26,10 @@ const witz = (options) => {
   const { chars, depth } = Object.assign({
     // List of characters to choose from
     // Source: https://tools.ietf.org/html/rfc4648#page-5
-    chars: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',
+    chars: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",
 
     // Resolution, mutations per call
-    depth: 23
+    depth: 23,
   }, options)
 
   // Strap in
@@ -37,14 +37,14 @@ const witz = (options) => {
 
   // Expects and returns dataURL or plain base64 encoded string,
   // allows for overriding depth
-  return (target = '', N = depth) => {
+  return (target = "", N = depth) => {
     // Bypass
     if (!N) {
       return target
     }
 
     // Extract data past the comma in dataURL if need be
-    const split = target.indexOf(',') + 1
+    const split = target.indexOf(",") + 1
     const scoop = target.slice(split)
 
     // Stitch up
