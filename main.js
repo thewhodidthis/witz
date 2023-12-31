@@ -33,10 +33,5 @@ export default function witz(input = new Uint8Array(), depth = 23) {
 }
 
 function random(s = Math.random()) {
-  return (a, b) => {
-    const h = b === undefined ? a : b
-    const l = b === undefined ? 0 : a
-
-    return Math.floor((s += 1) && (((s * 15485863 ** 3 % 2038074743) / 2038074743) * (h - l)) + l)
-  }
+  return (a, b) => Math.floor((s += 1) && (((s * 15485863 ** 3 % 2038074743) / 2038074743) * (b - a)) + a)
 }
