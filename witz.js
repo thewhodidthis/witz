@@ -4,54 +4,43 @@ var witz = (function() {
   // # Witz
   // Helps produce glitch
 
-  // Corrupt by recursively inserting random pick from base64
-  // charset at random index along target string.
-  const glitch = (lookup) => {
-    const random = (peak = lookup.length) => Math.floor(Math.random() * peak)
-    const filter = (data, turn) => {
-      if (!turn) {
-        return data
-      }
-
-      const mark = random(data.length)
-      const seed = lookup.charAt(random())
-
-      const crop = data.substring(0, mark) + seed + data.substring(mark + 1)
-
-      return filter(crop, turn - 1)
+  // Expects and returns an array buffer.
+  function witz(input = new Uint8Array(), depth = 23) {
+    // Figure out JPEG header length.
+    if (input.at(0) !== 0xff || input.at(1) !== 0xd8) {
+      throw new Error("Not a JPEG image.")
     }
 
-    return filter
-  }
+    let offset = 417
 
-  function witz(options) {
-    // Merge options and defaults.
-    const { chars, depth } = Object.assign({
-      // List of characters to choose from.
-      // Source: https://tools.ietf.org/html/rfc4648#page-5
-      chars: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",
+    for (let i = 0, m = input.length; i < m; i += 1) {
+      if (input.at(i) === 0xff && input.at(i + 1) === 0xda) {
+        offset = 2 + i
 
-      // Resolution, mutations per call.
-      depth: 23,
-    }, options)
+        break
+      }
+    }
 
-    // Strap in.
-    const filter = glitch(chars)
+    return (seed) => {
+      const next = Uint8Array.from(input)
+      const rand = random(seed)
 
-    // Expects and returns dataURL or plain base64 encoded string,
-    // allows for overriding depth.
-    return (target = "", N = depth) => {
-      // Bypass.
-      if (!N) {
-        return target
+      for (let i = 0; i < depth; i += 1) {
+        const j = rand(offset, next.length - offset - 4)
+
+        next[j] = 0
       }
 
-      // Extract data past the comma in dataURL if need be.
-      const split = target.indexOf(",") + 1
-      const scoop = target.slice(split)
+      return next
+    }
+  }
 
-      // Stitch up.
-      return target.slice(0, split) + filter(scoop, N)
+  function random(s = Math.random()) {
+    return (a, b) => {
+      const h = b === undefined ? a : b
+      const l = b === undefined ? 0 : a
+
+      return Math.floor((s += 1) && (((s * 15485863 ** 3 % 2038074743) / 2038074743) * (h - l)) + l)
     }
   }
 
