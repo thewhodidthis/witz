@@ -1,13 +1,14 @@
-const upward = Math.PI * 0.5
 const settings = [
   { up: true },
   { depth: 9 },
 ]
 
 const boards = document.querySelectorAll("canvas")
+const upward = Math.PI * 0.5
 
 Array.from(boards).forEach((canvas, i) => {
-  const config = settings[i % settings.length]
+  const depth = i & 1 === 1 ? 9 : 21
+  const up = i % 2 === 0
 
   const target = canvas.getContext("2d")
   const buffer = canvas.cloneNode().getContext("2d")
@@ -16,44 +17,47 @@ Array.from(boards).forEach((canvas, i) => {
   const output = document.createElement("img")
 
   const worker = new Worker("worker.js")
-  const update = () => {
-    // Works best with JPG images.
-    const source = buffer.canvas.toDataURL("image/jpeg", 0.5)
-
-    worker.postMessage({ config, source })
-  }
 
   worker.addEventListener("message", ({ data }) => {
-    output.setAttribute("src", data.result)
+    const blob = new Blob([data])
+    const src = URL.createObjectURL(blob)
+
+    output.setAttribute("src", src)
   })
 
   // Avoid drawing blanks.
   output.addEventListener("error", () => {
     // Try again.
-    update()
+    master.setAttribute("src", canvas.dataset.src)
   })
 
   output.addEventListener("load", () => {
     target.save()
 
     // Only rotate glitch versions.
-    if (config.up) {
+    if (up) {
       target.translate(0, canvas.height)
       target.rotate(-upward)
     }
 
     target.drawImage(output, 0, 0)
     target.restore()
+
+    URL.revokeObjectURL(output.src)
   })
 
   master.addEventListener("load", () => {
-    if (config.up) {
+    if (up) {
       buffer.rotate(upward)
       buffer.translate(0, -canvas.height)
     }
 
     buffer.drawImage(master, 0, 0)
-    update()
+    buffer.canvas.toBlob((blob) => {
+      blob.arrayBuffer().then((b) => {
+        worker.postMessage({ input: new Uint8Array(b), depth })
+      })
+    }, "image/jpeg")
   })
 
   master.setAttribute("src", canvas.dataset.src)
