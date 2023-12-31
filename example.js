@@ -1,8 +1,3 @@
-const settings = [
-  { up: true },
-  { depth: 9 },
-]
-
 const boards = document.querySelectorAll("canvas")
 const upward = Math.PI * 0.5
 
