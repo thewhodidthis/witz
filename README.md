@@ -1,6 +1,6 @@
 ## about
 
-Blindly corrupts images in string form.
+Blindly corrupts JPEG images.
 
 ## setup
 
@@ -30,31 +30,28 @@ pnpm install thewhodidthis/witz
 
 ## usage
 
-Works with [Data URLs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs) or plain [`base64`](https://www.gnu.org/software/coreutils/manual/html_node/base64-invocation.html#base64-invocation) encoded strings and is Web Worker and Node.js compatible.
+Expects and returns `Uint8Array` data, can be seeded for replicable results, is Web Worker, Node.js, and Deno compatible.
+
 ```js
 import witz from "@thewhodidthis/witz"
 import fs from "fs"
 
-const pimp = witz()
-const save = (data, file = "./target.jpg") =>
-  fs.writeFile(file, data, (error) => {
+fs.readFile("./4.2.02.jpg", (error, input) => {
+  if (error) {
+    throw error
+  }
+
+  const s = Date.now()
+  const result = witz(input)(s)
+  const b = Buffer.from(result, "base64")
+
+  fs.writeFile(`./4.2.02-${s}.jpg`, b, (error) => {
     if (error) {
       throw error
     }
 
     console.log("Done!")
   })
-
-fs.readFile("./source.jpg", (error, data) => {
-  if (error) {
-    throw error
-  }
-
-  const master = Buffer(data).toString("base64")
-  const sample = pimp(master)
-  const result = Buffer.from(sample, "base64")
-
-  save(result)
 })
 ```
 
