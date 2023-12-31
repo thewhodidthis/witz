@@ -6,24 +6,34 @@
     <script type="module">
       import "https://thewhodidthis.github.io/cutaway/main.js"
       import { assert, report } from "https://thewhodidthis.github.io/tapeless/main.js"
-      import createFilter from "./main.js"
+      import witz from "./main.js"
 
-      const sample =
-        "data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQEAYAAABPYyMiAAAABmJLR0T///////8JWPfcAAAACXBIWXMAAABIAAAASABGyWs+AAAAF0lEQVRIx2NgGAWjYBSMglEwCkbBSAcACBAAAeaR9cIAAAAASUVORK5CYII="
+      const image = new Image()
 
-      const { ok, equal } = assert
-      const filter = createFilter()
-      const result = filter(sample)
+      image.onload = () => {
+        const context = document.createElement("canvas").getContext("2d")
 
-      equal
-        .describe("returns lambda on init")
-        .test(typeof filter, "function")
+        context.drawImage(image, 0, 0)
+        context.canvas.toBlob((blob) => {
+          blob.arrayBuffer().then((b) => {
+            const d = new Uint8Array(b)
+            const filter = witz(d)
+            const o = filter()
 
-      ok
-        .describe("output type is a match")
-        .test(result)
+            assert.equal
+              .describe("returns lambda on init")
+              .test(typeof filter, "function")
 
-      report()
+            assert.ok
+              .describe("output type is a match")
+              .test(typeof result, "Uint8Array")
+
+            report()
+          })
+        }, "image/jpeg")
+      }
+
+      image.src = "data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQEAYAAABPYyMiAAAABmJLR0T///////8JWPfcAAAACXBIWXMAAABIAAAASABGyWs+AAAAF0lEQVRIx2NgGAWjYBSMglEwCkbBSAcACBAAAeaR9cIAAAAASUVORK5CYII="
     </script>
   </head>
   <body></body>
