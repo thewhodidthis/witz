@@ -4,7 +4,7 @@ var witz = (function() {
   // # Witz
   // Helps produce glitch
 
-  // Expects and returns an array buffer.
+  // Expects and returns typed array data.
   function witz(input = new Uint8Array(), depth = 23) {
     // Figure out JPEG header length.
     if (input.at(0) !== 0xff || input.at(1) !== 0xd8) {
