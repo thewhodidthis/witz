@@ -23,7 +23,7 @@ export default function witz(input = new Uint8Array(), depth = 23) {
     const rand = random(seed)
 
     for (let i = 0; i < depth; i += 1) {
-      const j = rand(offset, next.length - offset - 4)
+      const j = rand(offset, next.length - 4)
 
       next[j] = 0
     }
